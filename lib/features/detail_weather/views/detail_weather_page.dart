@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/utils/widget/appbar.dart';
 import 'package:weather_app/utils/widget/image_load.dart';
 
 class DetailWeatherPage extends StatelessWidget {
   static const String route = '/DetailWeatherPage';
-  const DetailWeatherPage({super.key});
+  final Weather item;
+  const DetailWeatherPage({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = DateFormat('EEEE, MMMM d, yyyy').format(item.dtTxt!);
+    String formattedTime = DateFormat('h:mm a').format(item.dtTxt!);
     return Scaffold(
       appBar: const PrimaryAppBar(text: "Weather Details"),
       body: Column(
@@ -16,14 +21,14 @@ class DetailWeatherPage extends StatelessWidget {
             height: 16,
           ),
           Text(
-            "Tuesday, July 19, 2022",
+            formattedDate,
             style: Theme.of(context)
                 .textTheme
                 .displayLarge!
                 .copyWith(fontSize: 26, height: 1.5),
           ),
           Text(
-            "4:00 PM",
+            formattedTime,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
@@ -36,14 +41,15 @@ class DetailWeatherPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "32.1°C",
+                  "${item.main?.temp}°C",
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
                       .copyWith(fontSize: 48, height: 1.5),
                 ),
-                const ImageLoad(
-                  src: 'https://openweathermap.org/img/wn/10d@2x.png',
+                ImageLoad(
+                  src:
+                      'https://openweathermap.org/img/wn/${item.weather?[0].icon}@2x.png',
                   height: 120,
                   width: 170,
                 ),
@@ -55,7 +61,7 @@ class DetailWeatherPage extends StatelessWidget {
               vertical: 12,
             ),
             child: Text(
-              "Clouds (few clouds)",
+              "${item.weather?[0].main} (${item.weather?[0].description})",
               style: Theme.of(context)
                   .textTheme
                   .displayLarge!
@@ -80,7 +86,7 @@ class DetailWeatherPage extends StatelessWidget {
                           .copyWith(fontSize: 14, height: 1.5),
                     ),
                     Text(
-                      "32.1°C",
+                      "${item.main?.tempMin}°C",
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!
@@ -99,7 +105,7 @@ class DetailWeatherPage extends StatelessWidget {
                           .copyWith(fontSize: 14, height: 1.5),
                     ),
                     Text(
-                      "32.1°C",
+                      "${item.main?.tempMax}°C",
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!
