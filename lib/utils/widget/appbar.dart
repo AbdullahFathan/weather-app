@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/config/themes/resources/app_color.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
@@ -17,12 +18,13 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
+      backgroundColor: AppColor.primaryColor,
       title: Text(
         text,
         style: textStyle ??
             const TextStyle(
               fontWeight: FontWeight.bold,
+              color: AppColor.whiteColor,
             ),
       ),
     );
