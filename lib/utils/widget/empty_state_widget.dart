@@ -23,6 +23,9 @@ class EmptyStateWidget extends StatelessWidget {
         children: [
           ImageLoad(
             src: image ?? appImages.imgEmpty.path,
+            height: 180,
+            width: 220,
+            fit: BoxFit.contain,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
