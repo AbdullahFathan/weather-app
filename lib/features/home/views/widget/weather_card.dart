@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/features/detail_weather/views/detail_weather_page.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/utils/widget/image_load.dart';
 
 class WeatherCard extends StatelessWidget {
-  const WeatherCard({super.key});
+  final Weather item;
+  const WeatherCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate =
+        DateFormat('E, MMM d, yyyy, h:mm a').format(item.dtTxt!);
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, DetailWeatherPage.route),
+      onTap: () => Navigator.pushNamed(
+        context,
+        DetailWeatherPage.route,
+        arguments: item,
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(
           vertical: 12,
@@ -16,8 +25,9 @@ class WeatherCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const ImageLoad(
-                src: 'https://openweathermap.org/img/wn/10d@2x.png'),
+            ImageLoad(
+                src:
+                    'https://openweathermap.org/img/wn/${item.weather?[0].icon}@2x.png'),
             const SizedBox(
               width: 10,
             ),
@@ -25,21 +35,21 @@ class WeatherCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Tue, Jul 19, 2022, 4:00 PM",
+                  formattedDate,
                   style: Theme.of(context)
                       .textTheme
                       .displayLarge!
                       .copyWith(fontSize: 16, height: 1.5),
                 ),
                 Text(
-                  "Clouds",
+                  "${item.weather?[0].main}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
                       .copyWith(fontSize: 14, height: 1.5),
                 ),
                 Text(
-                  "Temp: 32.1°C",
+                  "Temp: ${item.main?.temp}°C",
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!

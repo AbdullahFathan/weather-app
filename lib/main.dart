@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/config/routes/app_routes.dart';
 import 'package:weather_app/config/themes/app_theme.dart';
+import 'package:weather_app/features/home/bloc/weather_bloc.dart';
 import 'package:weather_app/features/home/views/home_page.dart';
 
 Future<void> main() async {
@@ -14,11 +16,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeClass.lightTheme,
-      onGenerateRoute: RouteGenerator.generateRoute,
-      home: const HomePage(),
+    return BlocProvider(
+      create: (context) => WeatherBloc()..add(GetWeatherData()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeClass.lightTheme,
+        onGenerateRoute: RouteGenerator.generateRoute,
+        home: const HomePage(),
+      ),
     );
   }
 }

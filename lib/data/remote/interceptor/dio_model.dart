@@ -1,20 +1,18 @@
 import 'package:dio/dio.dart';
 
 class DioModel {
-  Future<Dio> getDIO({
-    Map<String, dynamic> headers = const {},
-    int connectTimeout = 30000,
-    int receiveTimeout = 30000,
-  }) async {
-    final dio = Dio(BaseOptions(
+  DioModel() {
+    _dio = Dio(BaseOptions(
       connectTimeout: const Duration(milliseconds: 30000),
       receiveTimeout: const Duration(milliseconds: 30000),
       contentType: "application/json",
     ))
       ..interceptors.addAll([DioInterceptor()]);
-
-    return dio;
   }
+
+  late Dio _dio;
+
+  Dio get dio => _dio;
 }
 
 class DioInterceptor extends Interceptor {
